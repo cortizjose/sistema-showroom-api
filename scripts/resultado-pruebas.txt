@@ -1,0 +1,94 @@
+
+======================================================================
+ PRUEBAS DE LA API DEL SISTEMA DE SHOWROOM Y VENTAS
+ Evidencia GA7-220501096-AA5-EV03
+======================================================================
+
+------------------------------------------------------------------------
+PREPARACION DEL ESCENARIO
+------------------------------------------------------------------------
+  [OK]    Se crea el usuario administrador
+  [OK]    Se crea el usuario asesor
+  [OK]    Se crea una categoria
+  [OK]    Se crea un producto con stock inicial
+  [OK]    Se crea un cliente
+
+------------------------------------------------------------------------
+CP-01 a CP-06  AUTENTICACION Y ROLES
+------------------------------------------------------------------------
+  [OK]    CP-01 Credenciales correctas devuelven autenticacion satisfactoria
+  [OK]    CP-01 Se emite un token JWT de tres segmentos
+  [OK]    CP-02 El token incluye el rol del usuario
+  [OK]    CP-03 Contrasena incorrecta devuelve error en la autenticacion (401)
+  [OK]    CP-04 El mensaje no revela si la cuenta existe (anti-enumeracion)
+  [OK]    CP-05 Correo duplicado devuelve conflicto (409)
+  [OK]    CP-06 La contrasena nueva no puede ser igual a la actual
+
+------------------------------------------------------------------------
+CP-07 a CP-12  CATALOGO E INVENTARIO
+------------------------------------------------------------------------
+  [OK]    CP-07 Codigo de producto duplicado devuelve 409
+  [OK]    CP-08 Precio negativo es rechazado (422)
+  [OK]    CP-09 El stock inicial quedo registrado como movimiento de inventario
+  [OK]    CP-10 Ajuste positivo de stock: 10 + 5 = 15
+  [OK]    CP-11 Un ajuste que dejaria el stock negativo se rechaza (409)
+  [OK]    CP-12 La busqueda del catalogo encuentra el producto
+
+------------------------------------------------------------------------
+CP-13 a CP-19  COTIZACIONES
+------------------------------------------------------------------------
+  [OK]    CP-13 Se crea una cotizacion (201)
+  [OK]    CP-14 Los totales se calculan en el servidor con IVA del 19 %
+  [OK]    CP-15 La cotizacion nace en estado borrador
+  [OK]    CP-15 Se asigna numeracion consecutiva con prefijo COT
+  [OK]    CP-16 SEGURIDAD: se ignora el precio enviado por el cliente
+  [OK]    CP-17 Un descuento superior al maximo permitido se rechaza (422)
+  [OK]    CP-18 Una cotizacion sin lineas se rechaza (422)
+  [OK]    CP-19 No se puede saltar de borrador a aprobada (maquina de estados)
+
+------------------------------------------------------------------------
+CP-20 a CP-26  PEDIDOS E INVENTARIO
+------------------------------------------------------------------------
+  [OK]    CP-20 Una cotizacion en borrador no se puede convertir en pedido
+  [OK]    CP-21 Una cotizacion aprobada se convierte en pedido (201)
+  [OK]    CP-21 La cotizacion queda marcada como convertida
+  [OK]    CP-22 La misma cotizacion no se puede convertir dos veces
+  [OK]    CP-23 Confirmar el pedido descuenta el inventario (2 unidades)
+  [OK]    CP-24 Anular el pedido devuelve el inventario
+  [OK]    CP-25 Un pedido anulado ya no admite cambios de estado
+  [OK]    CP-26 Un pedido sin existencias suficientes se rechaza (409)
+
+------------------------------------------------------------------------
+CP-27 a CP-31  REGLAS TRANSVERSALES
+------------------------------------------------------------------------
+  [OK]    CP-27 Cotizar a un cliente inexistente se rechaza (422)
+  [OK]    CP-28 No se emiten documentos a un cliente inactivo (409)
+  [OK]    CP-29 No se cotiza un producto descontinuado (422)
+  [OK]    CP-30 Un administrador no puede desactivarse a si mismo (409)
+  [OK]    CP-31 SEGURIDAD: el listado de usuarios nunca expone el hash
+
+------------------------------------------------------------------------
+CP-32 a CP-35  TRAZABILIDAD Y REPORTES
+------------------------------------------------------------------------
+  [OK]    CP-32 La cotizacion conserva su historial de estados
+  [OK]    CP-33 El pedido conserva su historial de estados
+  [OK]    CP-34 El reporte de ventas se genera correctamente
+  [OK]    CP-34 Un rango de fechas invertido se rechaza (422)
+  [OK]    CP-35 El reporte de productos mas cotizados devuelve datos
+
+------------------------------------------------------------------------
+CP-36  SEGURIDAD: INYECCION SQL
+------------------------------------------------------------------------
+  [OK]    CP-36 Inyeccion SQL en el login es rechazada (401)
+  [OK]    CP-36 Inyeccion SQL en un filtro de busqueda no dana la base de datos
+
+========================================================================
+ RESUMEN DE LA EJECUCION
+========================================================================
+ Pruebas ejecutadas : 46
+ Pruebas exitosas   : 46
+ Pruebas fallidas   : 0
+========================================================================
+ RESULTADO: TODAS LAS PRUEBAS FUERON SATISFACTORIAS.
+========================================================================
+
