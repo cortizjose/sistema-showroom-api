@@ -1,0 +1,33 @@
+# ---------------------------------------------------------------------------
+# Archivos y carpetas que NO deben subirse al repositorio.
+# ---------------------------------------------------------------------------
+
+# Variables de entorno reales (contienen credenciales). Solo se versiona el
+# archivo de ejemplo .env.example
+.env
+
+# Base de datos SQLite generada en tiempo de ejecucion
+almacenamiento/*.sqlite
+almacenamiento/*.db
+
+# Registros (logs) de la aplicacion
+almacenamiento/logs/
+*.log
+
+# Dependencias (si en el futuro se usa Composer)
+/vendor/
+
+# Archivos propios de editores y del sistema operativo
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+
+# Artefacto intermedio de la generacion del PDF
+docs/_ev02_para_pdf.html
+
+# Artefacto intermedio de la generacion del PDF
+docs/_ev02_para_pdf.html
+
+# Base de datos SQLite de este proyecto
+almacenamiento/showroom.sqlite
