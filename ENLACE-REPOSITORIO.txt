@@ -1,0 +1,84 @@
+===============================================================================
+ ENLACE DEL REPOSITORIO
+ Evidencia GA7-220501096-AA5-EV03
+ Diseno y desarrollo de servicios web - proyecto
+===============================================================================
+
+ Aprendiz : Jose Cortes
+ Programa : Analisis y Desarrollo de Software - SENA
+ Proyecto : API del Sistema de Showroom y Ventas
+
+
+-------------------------------------------------------------------------------
+ REPOSITORIO
+-------------------------------------------------------------------------------
+
+ URL:  https://github.com/USUARIO/sistema-showroom-api
+
+ >>> REEMPLACE "USUARIO" POR SU NOMBRE DE USUARIO DE GITHUB <<<
+
+ Los pasos para publicarlo estan en docs/04-control-de-versiones.md, seccion 6.
+ En resumen:
+
+   1. Crear el repositorio vacio en github.com (sin README ni .gitignore).
+   2. Desde la carpeta del proyecto:
+
+        git remote add origin https://github.com/USUARIO/sistema-showroom-api.git
+        git push -u origin main
+
+   3. Verificar que en el navegador se vean los 16 commits.
+   4. Escribir aqui arriba la URL definitiva.
+
+
+-------------------------------------------------------------------------------
+ CONTENIDO DEL REPOSITORIO
+-------------------------------------------------------------------------------
+
+ Rama principal : main
+ Commits        : 16
+ Convencion     : Conventional Commits
+
+ - Codigo fuente de la API en PHP 8, organizado en capas y comentado.
+ - 37 servicios REST documentados uno por uno.
+ - Bateria de 36 casos de prueba automatizados (46 verificaciones).
+ - Coleccion de Postman con 47 peticiones (87 aserciones).
+ - Cuatro documentos: diseno, servicios, pruebas y versionamiento.
+ - Cliente web de demostracion del flujo comercial.
+
+
+-------------------------------------------------------------------------------
+ COMO EJECUTAR EL PROYECTO (para el evaluador)
+-------------------------------------------------------------------------------
+
+ Requisito: PHP 8.0 o superior. No requiere Composer, ni MySQL, ni
+ dependencias externas.
+
+   1. Descomprimir el proyecto.
+   2. Abrir una consola dentro de la carpeta sistema-showroom-api.
+   3. Cargar los datos de ejemplo:
+
+        php scripts/sembrar-datos.php
+
+   4. Levantar el servicio:
+
+        php -S localhost:8000 -t public public/index.php
+
+   5. Abrir en el navegador:
+
+        http://localhost:8000/cliente/index.html      Cliente de demostracion
+        http://localhost:8000/api                     Indice de los 37 servicios
+        http://localhost:8000/api/salud               Estado del servicio
+
+ Cuentas de prueba:
+
+        admin    / Admin2025      administrador (acceso total)
+        asesor   / Asesor2025     asesor (clientes, cotizaciones, pedidos)
+        consulta / Consulta2025   consulta (solo lectura)
+
+ Para ejecutar las pruebas automatizadas:
+
+        php scripts/pruebas.php
+
+ Resultado esperado: 46 de 46 verificaciones satisfactorias.
+
+===============================================================================
