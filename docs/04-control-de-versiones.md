@@ -71,22 +71,26 @@ pruebas y por último la documentación.
 
 | # | Hash | Mensaje |
 |---|---|---|
-| 1 | `8136802` | `chore: estructura inicial del proyecto y configuracion` |
-| 2 | `756fa6c` | `feat(nucleo): enrutador con parametros de ruta, middleware y contexto` |
-| 3 | `43c1d85` | `feat(datos): conexion PDO y esquema de once tablas` |
-| 4 | `d06ea24` | `feat(modelos): entidades del dominio y maquina de estados` |
-| 5 | `809ab7b` | `feat(datos): repositorios con consultas preparadas y transacciones` |
-| 6 | `56b8a71` | `feat(validacion): validador de todas las entidades del dominio` |
-| 7 | `d181cbf` | `feat(seguridad): JWT con rol y middleware de autenticacion` |
-| 8 | `bbcf8ea` | `feat(auth): autenticacion y administracion de usuarios` |
-| 9 | `f06326c` | `feat(catalogo): catalogo, inventario con trazabilidad y clientes` |
-| 10 | `7de5579` | `feat(comercial): cotizaciones, pedidos y efecto sobre el inventario` |
-| 11 | `df6586d` | `feat(reportes): ventas, demanda de productos y reposicion` |
-| 12 | `d87c670` | `feat(api): controladores, arranque y tabla de 37 rutas` |
-| 13 | `b791054` | `feat(cliente): cliente web de demostracion del flujo comercial` |
-| 14 | `b841df3` | `test: bateria de pruebas automatizadas y datos de ejemplo` |
-| 15 | `7a4c9d9` | `test(postman): coleccion de 47 peticiones con 87 aserciones` |
-| 16 | `f551413` | `docs: diseno del sistema, documentacion de servicios y plan de pruebas` |
+| 1 | `eca20e0` | `chore: estructura inicial del proyecto y configuracion` |
+| 2 | `1bc6730` | `feat(nucleo): enrutador con parametros de ruta, middleware y contexto` |
+| 3 | `0b53e52` | `feat(datos): conexion PDO y esquema de once tablas` |
+| 4 | `db95fd5` | `feat(modelos): entidades del dominio y maquina de estados` |
+| 5 | `b7acaa8` | `feat(datos): repositorios con consultas preparadas y transacciones` |
+| 6 | `5a1744c` | `feat(validacion): validador de todas las entidades del dominio` |
+| 7 | `29ca66d` | `feat(seguridad): JWT con rol y middleware de autenticacion` |
+| 8 | `8f8998b` | `feat(auth): autenticacion y administracion de usuarios` |
+| 9 | `bce253d` | `feat(catalogo): catalogo, inventario con trazabilidad y clientes` |
+| 10 | `2efe399` | `feat(comercial): cotizaciones, pedidos y efecto sobre el inventario` |
+| 11 | `3d987fe` | `feat(reportes): ventas, demanda de productos y reposicion` |
+| 12 | `c7240a4` | `feat(api): controladores, arranque y tabla de 37 rutas` |
+| 13 | `34e3490` | `feat(cliente): cliente web de demostracion del flujo comercial` |
+| 14 | `ae05bd3` | `test: bateria de pruebas automatizadas y datos de ejemplo` |
+| 15 | `b551637` | `test(postman): coleccion de 47 peticiones con 87 aserciones` |
+| 16 | `8c666eb` | `docs: diseno del sistema, documentacion de servicios y plan de pruebas` |
+| 17 | `448cf38` | `docs: evidencia del versionamiento y archivo de enlace del repositorio` |
+
+El commit 18 registra la URL definitiva del repositorio en este documento y en
+`ENLACE-REPOSITORIO.txt`.
 
 Consultas útiles:
 
@@ -113,11 +117,11 @@ En **github.com** → botón **New repository**:
 
 ```bash
 cd sistema-showroom-api
-git remote add origin https://github.com/USUARIO/sistema-showroom-api.git
+git remote add origin https://github.com/cortizjose/sistema-showroom-api.git
 git push -u origin main
 ```
 
-Sustituya `USUARIO` por su nombre de usuario de GitHub.
+
 
 ### Paso 3 — Verificar
 
@@ -126,7 +130,7 @@ git remote -v
 git log origin/main --oneline
 ```
 
-En el navegador deben verse los 16 commits y el README en la portada.
+En el navegador deben verse los 18 commits y el README en la portada.
 
 > **Si GitHub pide contraseña:** desde 2021 no acepta la contraseña de la cuenta.
 > Hay que generar un *token* en **Settings → Developer settings → Personal access
@@ -192,7 +196,7 @@ desplegable, mientras el trabajo en curso queda aislado hasta estar probado.
 
 | Criterio del enunciado | Evidencia |
 |---|---|
-| El proyecto se creó con herramientas de versionamiento | Repositorio Git con 16 commits (sección 5). |
+| El proyecto se creó con herramientas de versionamiento | Repositorio Git con 18 commits (sección 5). |
 | Historial ordenado y trazable | Conventional Commits, con el porqué de cada decisión (sección 4). |
 | Información sensible protegida | `.gitignore` excluye `.env` y la base de datos local (sección 3). |
 | Proyecto reproducible por terceros | `.env.example`, `README.md`, datos de ejemplo y scripts de arranque versionados. |

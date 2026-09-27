@@ -13,21 +13,7 @@
  REPOSITORIO
 -------------------------------------------------------------------------------
 
- URL:  https://github.com/USUARIO/sistema-showroom-api
-
- >>> REEMPLACE "USUARIO" POR SU NOMBRE DE USUARIO DE GITHUB <<<
-
- Los pasos para publicarlo estan en docs/04-control-de-versiones.md, seccion 6.
- En resumen:
-
-   1. Crear el repositorio vacio en github.com (sin README ni .gitignore).
-   2. Desde la carpeta del proyecto:
-
-        git remote add origin https://github.com/USUARIO/sistema-showroom-api.git
-        git push -u origin main
-
-   3. Verificar que en el navegador se vean los 16 commits.
-   4. Escribir aqui arriba la URL definitiva.
+ URL:  https://github.com/cortizjose/sistema-showroom-api
 
 
 -------------------------------------------------------------------------------
