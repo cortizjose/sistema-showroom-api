@@ -1,4 +1,4 @@
-(node:35592) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(node:19620) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
 (Use `node --trace-deprecation ...` to show where the warning was created)
 newman
 
@@ -6,125 +6,125 @@ GA7-220501096-AA5-EV03 - Sistema de Showroom y Ventas
 
 □ 00 - Estado del servicio
 └ Indice de la API
-  GET http://localhost:8010/api [200 OK, 12.94kB, 271ms]
+  GET http://localhost:8020/api [200 OK, 12.94kB, 139ms]
   √  Codigo de estado 200 (OK)
   √  Publica los 37 endpoints del contrato
   √  Informa las reglas de negocio vigentes
 
 └ Estado del servicio
-  GET http://localhost:8010/api/salud [200 OK, 908B, 117ms]
+  GET http://localhost:8020/api/salud [200 OK, 910B, 29ms]
   √  Codigo de estado 200 (OK)
   √  La base de datos esta conectada
 
 □ 01 - Autenticacion y roles
 └ Login administrador (guarda el token)
-  POST http://localhost:8010/api/auth/login [200 OK, 1.25kB, 393ms]
+  POST http://localhost:8020/api/auth/login [200 OK, 1.25kB, 152ms]
   √  Codigo de estado 200 (OK)
   √  Devuelve autenticacion satisfactoria
   √  Emite un token JWT de tres segmentos
   √  El usuario tiene rol administrador
 
 └ Login asesor (guarda su token aparte)
-  POST http://localhost:8010/api/auth/login [200 OK, 1.23kB, 404ms]
+  POST http://localhost:8020/api/auth/login [200 OK, 1.23kB, 118ms]
   √  Codigo de estado 200 (OK)
   √  El usuario tiene rol asesor
 
 └ Login consulta (guarda su token aparte)
-  POST http://localhost:8010/api/auth/login [200 OK, 1.24kB, 335ms]
+  POST http://localhost:8020/api/auth/login [200 OK, 1.24kB, 121ms]
   √  Codigo de estado 200 (OK)
 
 └ Contrasena incorrecta (401)
-  POST http://localhost:8010/api/auth/login [401 Unauthorized, 579B, 454ms]
+  POST http://localhost:8020/api/auth/login [401 Unauthorized, 579B, 111ms]
   √  Codigo de estado 401 (Unauthorized)
   √  Devuelve error en la autenticacion
 
 └ Usuario inexistente: mismo mensaje (401)
-  POST http://localhost:8010/api/auth/login [401 Unauthorized, 528B, 898ms]
+  POST http://localhost:8020/api/auth/login [401 Unauthorized, 528B, 139ms]
   √  Codigo de estado 401 (Unauthorized)
   √  El mensaje no revela si la cuenta existe
 
 └ Perfil del usuario autenticado
-  GET http://localhost:8010/api/auth/perfil [200 OK, 977B, 236ms]
+  GET http://localhost:8020/api/auth/perfil [200 OK, 977B, 30ms]
   √  Codigo de estado 200 (OK)
   √  La operacion fue satisfactoria
 
 └ Acceso sin token (401)
-  GET http://localhost:8010/api/productos [401 Unauthorized, 544B, 116ms]
+  GET http://localhost:8020/api/productos [401 Unauthorized, 544B, 24ms]
   √  Codigo de estado 401 (Unauthorized)
 
 └ Rol consulta intenta crear un cliente (403)
-  POST http://localhost:8010/api/clientes [403 Forbidden, 556B, 130ms]
+  POST http://localhost:8020/api/clientes [403 Forbidden, 556B, 34ms]
   √  Codigo de estado 403 (Forbidden)
   √  El mensaje indica el rol requerido
 
 □ 02 - Catalogo e inventario
 └ Listar categorias
-  GET http://localhost:8010/api/categorias [200 OK, 1.44kB, 158ms]
+  GET http://localhost:8020/api/categorias [200 OK, 1.44kB, 28ms]
   √  Codigo de estado 200 (OK)
   √  La operacion fue satisfactoria
 
 └ Listar catalogo (paginado)
-  GET http://localhost:8010/api/productos?pagina=1&porPagina=20 [200 OK, 6.08kB, 175ms]
+  GET http://localhost:8020/api/productos?pagina=1&porPagina=20 [200 OK, 7.22kB, 31ms]
   √  Codigo de estado 200 (OK)
   √  Devuelve productos y paginacion
   ┌
-  │ 'Producto de prueba: CAM-001 con stock 5'
+  │ 'Producto de prueba: CAM-001 con stock 3'
   └
 
 └ Buscar en el catalogo
-  GET http://localhost:8010/api/productos?busqueda=sofa [200 OK, 1.3kB, 120ms]
+  GET http://localhost:8020/api/productos?busqueda=sofa [200 OK, 1.3kB, 28ms]
   √  Codigo de estado 200 (OK)
   √  La operacion fue satisfactoria
 
 └ Consultar producto con su kardex
-  GET http://localhost:8010/api/productos/6 [200 OK, 1.44kB, 103ms]
+  GET http://localhost:8020/api/productos/6 [200 OK, 1.8kB, 29ms]
   √  Codigo de estado 200 (OK)
   √  Incluye los movimientos de inventario
 
 └ Crear producto
-  POST http://localhost:8010/api/productos [201 Created, 1.03kB, 198ms]
+  POST http://localhost:8020/api/productos [201 Created, 1.03kB, 75ms]
   √  Codigo de estado 201 (Created)
   √  El stock inicial quedo registrado
 
 └ Codigo duplicado (409)
-  POST http://localhost:8010/api/productos [409 Conflict, 571B, 152ms]
+  POST http://localhost:8020/api/productos [409 Conflict, 571B, 31ms]
   √  Codigo de estado 409 (Conflict)
 
 └ Precio negativo (422)
-  POST http://localhost:8010/api/productos [422 Unknown Status Code, 639B, 89ms]
+  POST http://localhost:8020/api/productos [422 Unknown Status Code, 639B, 32ms]
   √  Codigo de estado 422 (Unprocessable Entity)
   √  El error senala el precio
 
 └ Ajustar stock (+5)
-  PATCH http://localhost:8010/api/productos/10/stock [200 OK, 1.08kB, 100ms]
+  PATCH http://localhost:8020/api/productos/12/stock [200 OK, 1.08kB, 65ms]
   √  Codigo de estado 200 (OK)
   √  El stock pasa de 10 a 15
 
 └ Ajuste que dejaria el stock negativo (409)
-  PATCH http://localhost:8010/api/productos/10/stock [409 Conflict, 599B, 117ms]
+  PATCH http://localhost:8020/api/productos/12/stock [409 Conflict, 599B, 51ms]
   √  Codigo de estado 409 (Conflict)
 
 □ 03 - Clientes
 └ Listar clientes
-  GET http://localhost:8010/api/clientes [200 OK, 2.53kB, 90ms]
+  GET http://localhost:8020/api/clientes [200 OK, 3.41kB, 50ms]
   √  Codigo de estado 200 (OK)
 
 └ Registrar cliente
-  POST http://localhost:8010/api/clientes [201 Created, 926B, 75ms]
+  POST http://localhost:8020/api/clientes [201 Created, 926B, 57ms]
   √  Codigo de estado 201 (Created)
 
 └ Documento duplicado (409)
-  POST http://localhost:8010/api/clientes [409 Conflict, 600B, 62ms]
+  POST http://localhost:8020/api/clientes [409 Conflict, 600B, 45ms]
   √  Codigo de estado 409 (Conflict)
 
 └ Correo con formato invalido (422)
-  POST http://localhost:8010/api/clientes [422 Unknown Status Code, 633B, 72ms]
+  POST http://localhost:8020/api/clientes [422 Unknown Status Code, 633B, 47ms]
   √  Codigo de estado 422 (Unprocessable Entity)
   √  El error senala el correo
 
 □ 04 - Flujo comercial completo
 └ 1. Crear cotizacion
-  POST http://localhost:8010/api/cotizaciones [201 Created, 1.84kB, 103ms]
+  POST http://localhost:8020/api/cotizaciones [201 Created, 1.84kB, 39ms]
   √  Codigo de estado 201 (Created)
   √  Nace en estado borrador
   √  Tiene numeracion consecutiva COT
@@ -132,57 +132,57 @@ GA7-220501096-AA5-EV03 - Sistema de Showroom y Ventas
   √  Tiene fecha de vencimiento a 15 dias
 
 └ 2. SEGURIDAD: el precio del cliente se ignora
-  POST http://localhost:8010/api/cotizaciones [201 Created, 1.81kB, 98ms]
+  POST http://localhost:8020/api/cotizaciones [201 Created, 1.81kB, 43ms]
   √  Codigo de estado 201 (Created)
   √  Se ignoro el precio enviado por el cliente
 
 └ 3. Descuento superior al maximo (422)
-  POST http://localhost:8010/api/cotizaciones [422 Unknown Status Code, 647B, 122ms]
+  POST http://localhost:8020/api/cotizaciones [422 Unknown Status Code, 647B, 37ms]
   √  Codigo de estado 422 (Unprocessable Entity)
 
 └ 4. Cotizacion sin lineas (422)
-  POST http://localhost:8010/api/cotizaciones [422 Unknown Status Code, 629B, 119ms]
+  POST http://localhost:8020/api/cotizaciones [422 Unknown Status Code, 629B, 57ms]
   √  Codigo de estado 422 (Unprocessable Entity)
 
 └ 5. Transicion invalida: borrador a aprobada (422)
-  PATCH http://localhost:8010/api/cotizaciones/6/estado [422 Unknown Status Code, 631B, 77ms]
+  PATCH http://localhost:8020/api/cotizaciones/11/estado [422 Unknown Status Code, 631B, 49ms]
   √  Codigo de estado 422 (Unprocessable Entity)
 
 └ 6. Enviar la cotizacion al cliente
-  PATCH http://localhost:8010/api/cotizaciones/6/estado [200 OK, 1.87kB, 84ms]
+  PATCH http://localhost:8020/api/cotizaciones/11/estado [200 OK, 1.88kB, 50ms]
   √  Codigo de estado 200 (OK)
   √  Queda en estado enviada
 
 └ 7. Aprobar la cotizacion
-  PATCH http://localhost:8010/api/cotizaciones/6/estado [200 OK, 1.82kB, 107ms]
+  PATCH http://localhost:8020/api/cotizaciones/11/estado [200 OK, 1.82kB, 52ms]
   √  Codigo de estado 200 (OK)
   √  Ya se puede convertir en pedido
 
 └ 8. Convertir en pedido
-  POST http://localhost:8010/api/cotizaciones/6/convertir-pedido [201 Created, 3.19kB, 134ms]
+  POST http://localhost:8020/api/cotizaciones/11/convertir-pedido [201 Created, 3.19kB, 48ms]
   √  Codigo de estado 201 (Created)
   √  El pedido tiene numeracion PED
   √  La cotizacion queda marcada como convertida
   √  El pedido conserva el total de la cotizacion
 
 └ 9. Reconvertir la misma cotizacion (409)
-  POST http://localhost:8010/api/cotizaciones/6/convertir-pedido [409 Conflict, 550B, 80ms]
+  POST http://localhost:8020/api/cotizaciones/11/convertir-pedido [409 Conflict, 550B, 28ms]
   √  Codigo de estado 409 (Conflict)
 
 └ 10. Stock ANTES de confirmar
-  GET http://localhost:8010/api/productos/10 [200 OK, 1.75kB, 81ms]
+  GET http://localhost:8020/api/productos/12 [200 OK, 1.75kB, 23ms]
   √  Codigo de estado 200 (OK)
   ┌
   │ 'Stock antes de confirmar: 15'
   └
 
 └ 11. Confirmar el pedido (descuenta stock)
-  PATCH http://localhost:8010/api/pedidos/3/estado [200 OK, 1.95kB, 126ms]
+  PATCH http://localhost:8020/api/pedidos/6/estado [200 OK, 1.95kB, 68ms]
   √  Codigo de estado 200 (OK)
   √  El mensaje informa el descuento de existencias
 
 └ 12. Stock DESPUES de confirmar
-  GET http://localhost:8010/api/productos/10 [200 OK, 2.11kB, 68ms]
+  GET http://localhost:8020/api/productos/12 [200 OK, 2.11kB, 26ms]
   √  Codigo de estado 200 (OK)
   √  Se descontaron 2 unidades del inventario
   ┌
@@ -190,80 +190,85 @@ GA7-220501096-AA5-EV03 - Sistema de Showroom y Ventas
   └
 
 └ 13. Anular el pedido (devuelve stock)
-  PATCH http://localhost:8010/api/pedidos/3/estado [200 OK, 1.87kB, 122ms]
+  PATCH http://localhost:8020/api/pedidos/6/estado [200 OK, 1.88kB, 62ms]
   √  Codigo de estado 200 (OK)
   √  El mensaje informa la devolucion de existencias
 
 └ 14. Stock restaurado
-  GET http://localhost:8010/api/productos/10 [200 OK, 2.46kB, 62ms]
+  GET http://localhost:8020/api/productos/12 [200 OK, 2.46kB, 26ms]
   √  Codigo de estado 200 (OK)
   √  El inventario volvio a su valor original
 
 └ 15. Un pedido anulado ya no admite cambios (409)
-  PATCH http://localhost:8010/api/pedidos/3/estado [409 Conflict, 522B, 70ms]
+  PATCH http://localhost:8020/api/pedidos/6/estado [409 Conflict, 522B, 26ms]
   √  Codigo de estado 409 (Conflict)
 
 └ 16. Consultar el pedido con su historial
-  GET http://localhost:8010/api/pedidos/3 [200 OK, 2.66kB, 66ms]
+  GET http://localhost:8020/api/pedidos/6 [200 OK, 2.66kB, 29ms]
   √  Codigo de estado 200 (OK)
   √  Conserva el historial de estados
 
 □ 05 - Reportes
 └ Reporte de ventas del mes
-  GET http://localhost:8010/api/reportes/ventas [200 OK, 947B, 71ms]
+  GET http://localhost:8020/api/reportes/ventas [200 OK, 1.1kB, 28ms]
   √  Codigo de estado 200 (OK)
   √  Incluye resumen y desglose por estado
 
 └ Rango de fechas invertido (422)
-  GET http://localhost:8010/api/reportes/ventas?desde=2026-12-31&hasta=2026-01-01 [422 Unknown Status Code, 636B, 61ms]
+  GET http://localhost:8020/api/reportes/ventas?desde=2026-12-31&hasta=2026-01-01 [422 Unknown Status Code, 636B, 30ms]
   √  Codigo de estado 422 (Unprocessable Entity)
 
 └ Productos mas cotizados
-  GET http://localhost:8010/api/reportes/productos-mas-cotizados?limite=5 [200 OK, 1.44kB, 65ms]
+  GET http://localhost:8020/api/reportes/productos-mas-cotizados?limite=5 [200 OK, 1.65kB, 30ms]
   √  Codigo de estado 200 (OK)
   √  La operacion fue satisfactoria
 
 └ Inventario bajo minimos
-  GET http://localhost:8010/api/reportes/inventario-bajo [200 OK, 779B, 66ms]
+  GET http://localhost:8020/api/reportes/inventario-bajo [200 OK, 779B, 25ms]
   √  Codigo de estado 200 (OK)
   √  La operacion fue satisfactoria
 
 □ 06 - Manejo de errores
 └ Ruta inexistente (404)
-  GET http://localhost:8010/api/ruta-que-no-existe [404 Not Found, 522B, 90ms]
+  GET http://localhost:8020/api/ruta-que-no-existe [404 Not Found, 522B, 27ms]
   √  Codigo de estado 404 (Not Found)
   √  La respuesta es JSON
 
 └ Metodo no permitido (405)
-  GET http://localhost:8010/api/auth/login [405 Method Not Allowed, 559B, 61ms]
+  GET http://localhost:8020/api/auth/login [405 Method Not Allowed, 559B, 23ms]
   √  Codigo de estado 405 (Method Not Allowed)
   √  Indica el metodo correcto
 
 └ Recurso inexistente (404)
-  GET http://localhost:8010/api/productos/999999 [404 Not Found, 517B, 62ms]
+  GET http://localhost:8020/api/productos/999999 [404 Not Found, 517B, 26ms]
   √  Codigo de estado 404 (Not Found)
 
 └ Inyeccion SQL en el login (401)
-  POST http://localhost:8010/api/auth/login [401 Unauthorized, 528B, 286ms]
+  POST http://localhost:8020/api/auth/login [401 Unauthorized, 528B, 104ms]
   √  Codigo de estado 401 (Unauthorized)
   √  No se filtra ningun error del motor de base de datos
 
-┌─────────────────────────┬────────────────────┬────────────────────┐
-│                         │           executed │             failed │
-├─────────────────────────┼────────────────────┼────────────────────┤
-│              iterations │                  1 │                  0 │
-├─────────────────────────┼────────────────────┼────────────────────┤
-│                requests │                 47 │                  0 │
-├─────────────────────────┼────────────────────┼────────────────────┤
-│            test-scripts │                 47 │                  0 │
-├─────────────────────────┼────────────────────┼────────────────────┤
-│      prerequest-scripts │                  2 │                  0 │
-├─────────────────────────┼────────────────────┼────────────────────┤
-│              assertions │                 87 │                  0 │
-├─────────────────────────┴────────────────────┴────────────────────┤
-│ total run duration: 11.9s                                         │
-├───────────────────────────────────────────────────────────────────┤
-│ total data received: 54.27kB (approx)                             │
-├───────────────────────────────────────────────────────────────────┤
-│ average response time: 152ms [min: 61ms, max: 898ms, s.d.: 145ms] │
-└───────────────────────────────────────────────────────────────────┘
+┌─────────────────────────┬───────────────────┬───────────────────┐
+│                         │          executed │            failed │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              iterations │                 1 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│                requests │                47 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│            test-scripts │                47 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│      prerequest-scripts │                 2 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              assertions │                87 │                 0 │
+├─────────────────────────┴───────────────────┴───────────────────┤
+│ total run duration: 5.6s                                        │
+├─────────────────────────────────────────────────────────────────┤
+│ total data received: 57.04kB (approx)                           │
+├─────────────────────────────────────────────────────────────────┤
+│ average response time: 51ms [min: 23ms, max: 152ms, s.d.: 34ms] │
+└─────────────────────────────────────────────────────────────────┘
+npm notice
+npm notice New major version of npm available! 11.16.0 -> 12.1.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.1.0
+npm notice To update run: npm install -g npm@12.1.0
+npm notice

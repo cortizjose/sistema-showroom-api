@@ -31,3 +31,8 @@ docs/_ev02_para_pdf.html
 
 # Base de datos SQLite de este proyecto
 almacenamiento/showroom.sqlite
+
+# Artefactos intermedios de la generacion de PDF
+docs/_pruebas_para_pdf.html
+docs/_endpoints_para_pdf.html
+docs/_capturas_comprimidas/
