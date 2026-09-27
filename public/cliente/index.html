@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Showroom · Cliente de demostración</title>
+<style>
+  /* ==========================================================================
+     Cliente de demostración de la API del showroom.
+     Recorre el flujo comercial completo: login, catálogo, cotización,
+     aprobación, conversión a pedido y confirmación con descuento de stock.
+     ========================================================================== */
+  :root{
+    --fondo:#f4f6fa; --superficie:#fff; --borde:#d9dee8;
+    --texto:#1b2333; --suave:#5b6779;
+    --primario:#1f5fd6; --primario-fuerte:#174aa8;
+    --exito:#0f7b46; --exito-bg:#e6f5ed;
+    --error:#b3261e; --error-bg:#fdeceb;
+    --codigo-bg:#0f172a; --codigo-fg:#d7e3f4;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --fondo:#0f1420; --superficie:#171d2b; --borde:#2b3446;
+      --texto:#e8edf6; --suave:#9aa6ba;
+      --primario:#5b93ff; --primario-fuerte:#3f78e8;
+      --exito:#5fd39b; --exito-bg:#12301f;
+      --error:#ff8078; --error-bg:#331714;
+      --codigo-bg:#070b14; --codigo-fg:#cfdcf0;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:24px 16px 56px;font-family:"Segoe UI",system-ui,sans-serif;
+       background:var(--fondo);color:var(--texto);line-height:1.5}
+  .contenedor{max-width:1100px;margin:0 auto}
+  h1{font-size:1.5rem;margin:0 0 4px}
+  .sub{color:var(--suave);font-size:.9rem;margin:0 0 16px}
+  .estado{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;
+          border:1px solid var(--borde);background:var(--superficie);font-size:.8rem;color:var(--suave)}
+  .punto{width:9px;height:9px;border-radius:50%;background:var(--suave)}
+  .punto.on{background:var(--exito)} .punto.off{background:var(--error)}
+  .rejilla{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
+  @media (max-width:860px){.rejilla{grid-template-columns:1fr}}
+  .tarjeta{background:var(--superficie);border:1px solid var(--borde);border-radius:12px;padding:18px}
+  .tarjeta h2{font-size:1rem;margin:0 0 2px}
+  .tarjeta .ruta{font-family:ui-monospace,Consolas,monospace;font-size:.75rem;color:var(--suave);margin:0 0 14px}
+  label{display:block;font-size:.8rem;font-weight:600;margin:10px 0 4px}
+  input,select{width:100%;padding:8px 10px;border:1px solid var(--borde);border-radius:6px;
+               background:var(--fondo);color:var(--texto);font-size:.9rem;font-family:inherit}
+  button{margin-top:14px;width:100%;padding:10px;border:0;border-radius:6px;background:var(--primario);
+         color:#fff;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit}
+  button:hover{background:var(--primario-fuerte)}
+  button:disabled{opacity:.5;cursor:not-allowed}
+  button.secundario{background:transparent;color:var(--primario);border:1px solid var(--primario)}
+  .aviso{margin-top:12px;padding:9px 12px;border-radius:7px;font-size:.85rem;display:none;white-space:pre-line}
+  .aviso.ok{display:block;background:var(--exito-bg);color:var(--exito);border:1px solid var(--exito)}
+  .aviso.mal{display:block;background:var(--error-bg);color:var(--error);border:1px solid var(--error)}
+  table{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:10px}
+  th{text-align:left;color:var(--suave);font-weight:600;padding:5px 4px;border-bottom:1px solid var(--borde)}
+  td{padding:5px 4px;border-bottom:1px solid var(--borde)}
+  .num{text-align:right;font-variant-numeric:tabular-nums}
+  pre{background:var(--codigo-bg);color:var(--codigo-fg);padding:14px;border-radius:9px;overflow:auto;
+      max-height:340px;font-family:ui-monospace,Consolas,monospace;font-size:.75rem;margin:0}
+  .paso{display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;
+        background:var(--primario);color:#fff;font-size:.72rem;font-weight:700;margin-right:6px}
+</style>
+</head>
+<body>
+<div class="contenedor">
+
+  <h1>Sistema de Showroom y Ventas</h1>
+  <p class="sub">Cliente de demostración de la API · Evidencia GA7-220501096-AA5-EV03</p>
+  <div class="estado"><span class="punto" id="punto"></span><span id="txtEstado">Comprobando el servicio…</span></div>
+
+  <div class="rejilla">
+
+    <!-- PASO 1: autenticación -->
+    <section class="tarjeta">
+      <h2><span class="paso">1</span>Iniciar sesión</h2>
+      <p class="ruta">POST /api/auth/login</p>
+      <form id="fLogin">
+        <label for="u">Usuario</label>
+        <input id="u" value="asesor">
+        <label for="p">Contraseña</label>
+        <input id="p" type="password" value="Asesor2025">
+        <button type="submit">Entrar</button>
+      </form>
+      <div class="aviso" id="avLogin"></div>
+    </section>
+
+    <!-- PASO 2: cotización -->
+    <section class="tarjeta">
+      <h2><span class="paso">2</span>Crear cotización</h2>
+      <p class="ruta">POST /api/cotizaciones</p>
+      <form id="fCot">
+        <label for="cli">Cliente</label>
+        <select id="cli"><option>Inicie sesión primero</option></select>
+        <label for="pro">Producto</label>
+        <select id="pro"><option>Inicie sesión primero</option></select>
+        <label for="cant">Cantidad</label>
+        <input id="cant" type="number" value="2" min="1">
+        <label for="dto">Descuento (%)</label>
+        <input id="dto" type="number" value="0" min="0" max="20">
+        <button type="submit" disabled id="btnCot">Cotizar</button>
+      </form>
+      <div class="aviso" id="avCot"></div>
+    </section>
+
+  </div>
+
+  <!-- PASO 3: flujo del documento -->
+  <section class="tarjeta" style="margin-top:18px">
+    <h2><span class="paso">3</span>Ciclo del documento</h2>
+    <p class="ruta">PATCH /api/cotizaciones/{id}/estado · POST /api/cotizaciones/{id}/convertir-pedido · PATCH /api/pedidos/{id}/estado</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="secundario" id="bEnviar"   disabled style="flex:1;min-width:150px">Enviar al cliente</button>
+      <button class="secundario" id="bAprobar"  disabled style="flex:1;min-width:150px">Aprobar</button>
+      <button class="secundario" id="bConvertir" disabled style="flex:1;min-width:150px">Convertir en pedido</button>
+      <button class="secundario" id="bConfirmar" disabled style="flex:1;min-width:150px">Confirmar (descuenta stock)</button>
+    </div>
+    <div class="aviso" id="avFlujo"></div>
+    <div id="tablaStock"></div>
+  </section>
+
+  <section class="tarjeta" style="margin-top:18px">
+    <h2>Intercambio HTTP</h2>
+    <pre id="consola">Aún no se ha realizado ninguna petición.</pre>
+  </section>
+
+</div>
+
+<script>
+/* ===========================================================================
+   Lógica del cliente. Consume la API con fetch() y muestra cada intercambio.
+   =========================================================================== */
+const BASE = '/api';
+let token = null;
+let idCotizacion = null;
+let idPedido = null;
+
+/** Escribe la petición y la respuesta en la consola visual. */
+function registrar(metodo, ruta, enviado, estado, recibido) {
+  const bloque = `> ${metodo} ${ruta}\n`
+    + (enviado ? `> ${JSON.stringify(enviado)}\n` : '')
+    + `\n< HTTP ${estado}\n${JSON.stringify(recibido, null, 2)}\n\n${'-'.repeat(56)}\n\n`;
+  const c = document.getElementById('consola');
+  c.textContent = bloque + (c.dataset.ini ? c.textContent : '');
+  c.dataset.ini = '1';
+}
+
+/** Realiza una petición a la API, adjuntando el token si existe. */
+async function api(ruta, metodo = 'GET', cuerpo = null) {
+  const op = { method: metodo, headers: { 'Content-Type': 'application/json' } };
+  if (token) op.headers['Authorization'] = 'Bearer ' + token;
+  if (cuerpo) op.body = JSON.stringify(cuerpo);
+
+  const r = await fetch(BASE + ruta, op);
+  const d = await r.json();
+  registrar(metodo, BASE + ruta, cuerpo, r.status, d);
+  return { estado: r.status, d };
+}
+
+/** Muestra un aviso bajo un formulario. */
+function avisar(id, ok, mensaje, errores) {
+  const caja = document.getElementById(id);
+  caja.className = 'aviso ' + (ok ? 'ok' : 'mal');
+  let t = mensaje;
+  if (errores && Object.keys(errores).length) {
+    t += '\n' + Object.entries(errores).map(([k, v]) => `• ${k}: ${v}`).join('\n');
+  }
+  caja.textContent = t;
+}
+
+/** Formatea un número como moneda colombiana. */
+const pesos = n => '$ ' + Number(n).toLocaleString('es-CO');
+
+// --- Estado del servicio ---------------------------------------------------
+(async () => {
+  const punto = document.getElementById('punto');
+  const txt = document.getElementById('txtEstado');
+  try {
+    const r = await fetch(BASE + '/salud');
+    const d = await r.json();
+    punto.className = 'punto on';
+    const g = d.datos.registros;
+    txt.textContent = `Operativo · v${d.datos.version} · ${g.productos} productos, ${g.clientes} clientes, ${g.pedidos} pedidos`;
+  } catch {
+    punto.className = 'punto off';
+    txt.textContent = 'El servicio no responde. Verifique que el servidor esté en ejecución.';
+  }
+})();
+
+// --- Paso 1: login ---------------------------------------------------------
+document.getElementById('fLogin').addEventListener('submit', async e => {
+  e.preventDefault();
+  const { d } = await api('/auth/login', 'POST', {
+    usuario: document.getElementById('u').value,
+    contrasena: document.getElementById('p').value
+  });
+
+  avisar('avLogin', d.exito, d.mensaje, d.errores);
+  if (!d.exito) return;
+
+  token = d.datos.token;
+  avisar('avLogin', true, `${d.mensaje}\nRol: ${d.datos.usuario.rol}`);
+
+  // Con el token ya disponible se cargan los desplegables.
+  const [cli, pro] = await Promise.all([api('/clientes'), api('/productos')]);
+
+  const selCli = document.getElementById('cli');
+  selCli.innerHTML = cli.d.datos.clientes
+    .map(c => `<option value="${c.id}">${c.nombre}</option>`).join('');
+
+  const selPro = document.getElementById('pro');
+  selPro.innerHTML = pro.d.datos.productos
+    .map(p => `<option value="${p.id}">${p.codigo} — ${p.nombre} (${pesos(p.precioUnitario)}, stock ${p.stock})</option>`).join('');
+
+  document.getElementById('btnCot').disabled = false;
+});
+
+// --- Paso 2: crear cotización ---------------------------------------------
+document.getElementById('fCot').addEventListener('submit', async e => {
+  e.preventDefault();
+  const { d } = await api('/cotizaciones', 'POST', {
+    cliente_id: Number(document.getElementById('cli').value),
+    lineas: [{
+      producto_id: Number(document.getElementById('pro').value),
+      cantidad: Number(document.getElementById('cant').value),
+      descuento_porcentaje: Number(document.getElementById('dto').value)
+    }]
+  });
+
+  if (!d.exito) { avisar('avCot', false, d.mensaje, d.errores); return; }
+
+  const c = d.datos.cotizacion;
+  idCotizacion = c.id;
+  avisar('avCot', true,
+    `${d.mensaje}\nSubtotal ${pesos(c.totales.subtotal)} · IVA ${pesos(c.totales.iva)} · Total ${pesos(c.totales.total)}`);
+
+  document.getElementById('bEnviar').disabled = false;
+});
+
+// --- Paso 3: ciclo del documento ------------------------------------------
+/** Cambia el estado de la cotización actual. */
+async function estadoCotizacion(nuevo, siguienteBoton) {
+  const { d } = await api(`/cotizaciones/${idCotizacion}/estado`, 'PATCH', { estado: nuevo });
+  avisar('avFlujo', d.exito, d.mensaje, d.errores);
+  if (d.exito && siguienteBoton) document.getElementById(siguienteBoton).disabled = false;
+}
+
+document.getElementById('bEnviar').addEventListener('click', () => estadoCotizacion('enviada', 'bAprobar'));
+document.getElementById('bAprobar').addEventListener('click', () => estadoCotizacion('aprobada', 'bConvertir'));
+
+document.getElementById('bConvertir').addEventListener('click', async () => {
+  const { d } = await api(`/cotizaciones/${idCotizacion}/convertir-pedido`, 'POST', {});
+  avisar('avFlujo', d.exito, d.mensaje, d.errores);
+  if (!d.exito) return;
+  idPedido = d.datos.pedido.id;
+  document.getElementById('bConfirmar').disabled = false;
+});
+
+document.getElementById('bConfirmar').addEventListener('click', async () => {
+  // Se consulta el stock antes y después, para evidenciar el descuento.
+  const antes = (await api('/productos')).d.datos.productos;
+
+  const { d } = await api(`/pedidos/${idPedido}/estado`, 'PATCH', { estado: 'confirmado' });
+  avisar('avFlujo', d.exito, d.mensaje, d.errores);
+  if (!d.exito) return;
+
+  const despues = (await api('/productos')).d.datos.productos;
+
+  const filas = antes.map((p, i) => {
+    const dif = despues[i].stock - p.stock;
+    return `<tr><td>${p.codigo}</td><td>${p.nombre}</td>
+            <td class="num">${p.stock}</td><td class="num">${despues[i].stock}</td>
+            <td class="num">${dif === 0 ? '—' : dif}</td></tr>`;
+  }).join('');
+
+  document.getElementById('tablaStock').innerHTML =
+    `<table><tr><th>Código</th><th>Producto</th><th class="num">Antes</th>
+     <th class="num">Después</th><th class="num">Dif.</th></tr>${filas}</table>`;
+});
+</script>
+</body>
+</html>
